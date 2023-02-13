@@ -1,6 +1,6 @@
 package first;
 
-public class PostBox<T> {
+public class PostBox<T> { // generic class.
     private T item;
     // getter
     public T getItem() {
