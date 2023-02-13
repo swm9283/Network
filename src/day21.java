@@ -1,20 +1,29 @@
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.*;
 
 public class day21
 {
     public static void main(String[] args) {
         try {
-            InetAddress addr = Inet4Address.getByName("www.inha.ac.kr");  // 어떻게 new가 없이 객체 생성? 내부적으로 객체를 생성하고 있을 수 있다.
-//            InetAddress addr = Inet4Address.getByName("www.kiminha.ac.kr");
-            System.out.println(addr);
-            System.out.println(addr.getCanonicalHostName());
-            System.out.println(addr.getHostAddress());
-            System.out.println(addr.getHostName());
-        } catch (UnknownHostException e) {
-//            throw new RuntimeException(e);
-            System.out.println("해당 URL은 존재 하지 않습니다.");
+            URL url = new
+                    URL("http://www.inha.ac.kr");
+            URLConnection urlConnection =
+                    url.openConnection();
+            BufferedReader br = new BufferedReader(   // br에 htmal에 대한 모든 정보를 넣어뒀다.
+                    new InputStreamReader(
+                            urlConnection.getInputStream()));
+            String line;
+            while ((line = br.readLine()) != null) {   //br에서 정보를 하나 하나 꺼내오겠다.
+                System.out.println(line);
+            }
+            br.close();  // 연결해지.
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException ex) {
+            // Handle exceptions
+            System.out.println("test");
         }
     }
 }
