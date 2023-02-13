@@ -20,3 +20,5 @@ public class Ggoboogi extends Pokemon
     }
 }
 
+
+

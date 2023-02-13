@@ -17,3 +17,5 @@ public class Pikachu extends Pokemon
         System.out.printf("[피카피카] %s의 %s가 %s 공격시전!\n",this.owner,this.name,this.skills[idx]);
     }
 }
+
+
