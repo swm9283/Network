@@ -11,11 +11,14 @@ public class ThreadPool {
         //newFixedThreadPool(int nThreads)
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        // execute() 메소드로 작업 처리 요청한 경우
-        // execute(Runnable command)
-        // void 리턴 타입
-        // Runnable 을 직업 큐에 저장하고 , 작업 처리 결과를 받지 못함.
-        // 예외가 발생하면 해당 스레드를 스레드 풀에서 제거함.
+        // 작업 처리 요청이란 ExecutorService의 작업 큐애 Runnable 또는 Collable 객체를 넣는 행위를 말한다.
+        //submit(Runnable task) submit(Runnable task,V result) submit(Collable task)
+        //Future 객체 리턴
+        //Runnable 또는 Collable 을 작업 큐에 저장
+        // return 된 Future를 통해 작업 처리 결과를 알 수 있음
+        // 예외가 발생하더라도 스레드는 종료되지 않고 다른 작업에 재사용될 수 있음.
+        // 가급적 이 메소드를 사용하는 것을 추천
+
         for(int i = 0 ; i <10 ; ++i)
         {
             Runnable runnable = () ->
@@ -26,12 +29,11 @@ public class ThreadPool {
                 System.out.printf("[총 스레드 개수 : %d 작업 스레드 이름 : %s]\n",poolSize,threadName);
                 int value = Integer.parseInt("삼");
             };
-            executorService.execute(runnable);
+            executorService.submit(runnable);
             Thread.sleep(100);
 
         }
         executorService.shutdown();
-        // 결과를 보면 스레드 풀의 스레드 최대 개수는 2개로 변함이 없지만, 실행 스레드의 이름을 보면 모두 다른 스레드가 작업을 처리하고 있다.
-        // 이는 작업 처리 중에 요류가 발생하면 해당 스레드는 스레드 풀에서 제거하고 , 새 스레드를 생성해서 넣기 때문이다.
+        // 예외가 발생하더라도 기존 스레드를 재활용하여 작업을 처리하는 것을 알 수 있다.
     }
 }
