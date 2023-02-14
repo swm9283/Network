@@ -11,7 +11,7 @@ public class day21
                     URL("http://www.inha.ac.kr");
             URLConnection urlConnection =
                     url.openConnection();
-            BufferedReader br = new BufferedReader(   // br에 htmal에 대한 모든 정보를 넣어뒀다.
+            BufferedReader br = new BufferedReader(   // br에 html에 대한 모든 정보를 넣어뒀다.
                     new InputStreamReader(
                             urlConnection.getInputStream()));
             String line;
