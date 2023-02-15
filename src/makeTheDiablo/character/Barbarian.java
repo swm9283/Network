@@ -1,4 +1,4 @@
-package MakeTheDiablo.character;
+package makeTheDiablo.character;
 
 public class Barbarian extends Character {
 
@@ -7,8 +7,4 @@ public class Barbarian extends Character {
         mp = 150;
     }
 
-    @Override
-    void info() {
-
-    }
 }

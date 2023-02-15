@@ -1,6 +1,4 @@
-package MakeTheDiablo.weapon;
-
-import MakeTheDiablo.weapon.WeaponBehavior;
+package makeTheDiablo.weapon;
 
 public class Orb implements WeaponBehavior {
     @Override

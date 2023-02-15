@@ -1,4 +1,4 @@
-package MakeTheDiablo.weapon;
+package makeTheDiablo.weapon;
 
 public interface WeaponBehavior {
     void useWeapon();

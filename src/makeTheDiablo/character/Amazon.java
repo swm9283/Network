@@ -1,10 +1,6 @@
-package MakeTheDiablo.character;
+package makeTheDiablo.character;
 
 public class Amazon extends Character{
-    @Override
-    void info() {
-//        super.info();
-    }
 
     public Amazon() {
         hp = 700;

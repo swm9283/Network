@@ -1,9 +1,10 @@
-package MakeTheDiablo;
-
-import MakeTheDiablo.character.Barbarian;
-import MakeTheDiablo.character.Sorceress;
-import MakeTheDiablo.weapon.Axe;
-import MakeTheDiablo.weapon.Bow;
+package makeTheDiablo;
+//import makeTheDiablo.*;
+// 협업을 하는 상황에서는 *를 잘 사용하지 않는다.
+import makeTheDiablo.character.Barbarian;
+import makeTheDiablo.character.Sorceress;
+import makeTheDiablo.weapon.Axe;
+import makeTheDiablo.weapon.Bow;
 
 public class main {
     public static void main(String[] args) {
@@ -18,6 +19,7 @@ public class main {
         s1.setWeapon(new Axe());
         s1.performWeapon();
         s1.info();
-
+        b1.setWeapon(()-> System.out.println("신오브로 아이스볼을 발사!"));
+        b1.performWeapon();
     }
 }
