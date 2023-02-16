@@ -1,76 +1,87 @@
-import packt.ThreadedEchoServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+// IP 165.246.115.165 포트 20000
 
 public class SimpleEchoServer implements Runnable {
-
+    // 다중 접속 에코 서버
     private static Socket clientSocket;
-
-    public SimpleEchoServer(Socket clientSocket) {
+    public SimpleEchoServer(Socket clientSocket)
+    {
         this.clientSocket = clientSocket;
     }
-
     public static void main(String[] args) {
-        ExecutorService eService = Executors.newFixedThreadPool(2); // 2threads
+        ExecutorService eService = Executors.newFixedThreadPool(50);  // 5 threads
         System.out.println("다중 접속 에코 서버");
-        try (ServerSocket serverSocket = new ServerSocket(9900)) {
-            while (true) {
-                System.out.println("연결 대기 중.");
 
+        try (ServerSocket serverSocket = new ServerSocket(20000)) {
+            while (true) {
+                System.out.println("클라이언트 접속 대기 중.....");
                 clientSocket = serverSocket.accept();
-                ThreadedEchoServer tes = new ThreadedEchoServer(clientSocket);
-//                new Thread(tes).start();// thraed 무한 발금
+                SimpleEchoServer tes = new SimpleEchoServer(clientSocket);
                 eService.submit(tes);
             }
-
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("입출력 예외 발생!");
         }
-        System.out.println("Threaded Echo Server Terminating");
+        System.out.println("다중 접속 에코 서버 종료");
+        eService.shutdown();
     }
 
     @Override
     public void run() {
-        System.out.println("Connected to client using [" + Thread.currentThread() + "]");
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream()));
-             PrintWriter pr = new PrintWriter(
-                     clientSocket.getOutputStream(), true)) {
-            // Traditional implementation
-            String inputLine;
-            while ((inputLine = br.readLine()) != null) {
-                System.out.println("Client request [" + Thread.currentThread() + "]: " + inputLine);
-                pr.println(inputLine);
+        System.out.println(Thread.currentThread() + " 스레드 접속");
+        try (
+                BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter pw = new PrintWriter(clientSocket.getOutputStream(), true)
+        ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(clientSocket.getRemoteSocketAddress().toString() + " " + Thread.currentThread() +" 클라이언트가 보낸 메세지 : " + line);
+                try{
+                    StringTokenizer st = new StringTokenizer(line,"+-*/", true);
+                    int result = 0, operand = 0;
+                    char operator = '+';
+
+                    while(st.hasMoreTokens()){
+                        String token = st.nextToken().trim();
+
+                        if("+-*/".indexOf(token) >= 0){
+                            operator = token.charAt(0);
+                        }else{
+                            operand = Integer.parseInt(token);
+
+                            switch (operator){
+                                case '+':
+                                    result = result + operand;
+                                    break;
+                                case '-':
+                                    result = result - operand;
+                                    break;
+                                case '*':
+                                    result = result * operand;
+                                    break;
+                                case '/':
+                                    result = result / operand;
+                                    break;
+                            }
+                        }
+                    }
+                    pw.println(line+"="+result);
+                }catch (NumberFormatException err){
+                    pw.println("유효하지 않은 입력 값 입니다. 숫자를 입력해주세요.");
+                }
             }
-            System.out.println("Client [" + Thread.currentThread() + " connection terminated");
-            // Functional implementation
-//                Supplier<String> socketInput = () -> {
-//                    try {
-//                        return br.readLine();
-//                    } catch (IOException ex) {
-//                        return null;
-//                    }
-//                };
-//                Stream<String> stream = Stream.generate(socketInput);
-//                stream
-//                        .map(s -> {
-//                            System.out.println("Client request: " + s);
-//                            out.println(s);
-//                            return s;
-//                        })
-//                        .allMatch(s -> s != null);
-        } catch (IOException ex) {
-            //ex.printStackTrace();
-            System.out.println("다중 접속 예외 발생!");
+            System.out.println(Thread.currentThread() +" 클라이언트가 종료됨"); }
+        catch (IOException ex)
+        {
+            System.out.println("입출력 예외 발생!");
         }
     }
 }
