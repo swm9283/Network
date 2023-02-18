@@ -1,4 +1,4 @@
-package second;
+package lambdademo;
 // Lambda Expression (람다식)
 // 익명 메소드 (일반 메소드와 달리 이름이 없다)
 // 메서드와 달리 특정 클래스에 종속되지 않지만, 매개변수,리턴타입, 본체를 가진다.

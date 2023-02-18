@@ -1,4 +1,4 @@
-package second;
+package lambdademo;
 
 import java.util.Arrays;
 

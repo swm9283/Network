@@ -1,3 +1,5 @@
+package testmaterial;
+
 // 생성자가 private인 경우
 class One{
     private One()

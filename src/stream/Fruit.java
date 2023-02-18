@@ -2,7 +2,8 @@ package stream;
 
 import java.util.Comparator;
 
-public class Fruit implements Comparable<Fruit> { // 스트림 요소가 객체일 경우 객체가 comparable interface를 구현!
+// 스트림 요소가 객체일 경우 객체가 comparable interface를 구현!
+public class Fruit implements Comparable<Fruit> {
     private String name;
     private int price;
 

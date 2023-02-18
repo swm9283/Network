@@ -1,4 +1,4 @@
-package second;
+package lambdademo;
 //Lambda Expression
 // x -> Integer.parseInt(x);
 
